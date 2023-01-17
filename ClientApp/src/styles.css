@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+app-root {
+  width: 100%;
+  height: 100%;
+}
+
+app-nav-bar {
+  display: block;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: lightblue;
+}
+
+app-shapes-field {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
