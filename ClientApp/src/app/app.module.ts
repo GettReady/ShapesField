@@ -17,7 +17,10 @@ import { ShapesFieldComponent } from './shapes-field/shapes-field.component';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule    
+    FormsModule,
+    RouterModule.forRoot([
+      { path: '', component: AppComponent, pathMatch: 'full' }
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]

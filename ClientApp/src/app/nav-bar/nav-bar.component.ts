@@ -12,4 +12,22 @@ export class NavBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  create() {
+
+  }
+
+  delete() {
+
+  }
+
+  edit() {
+
+  }
 }
+
+//interface Shape {
+//  type: string;
+//  name: string;
+//  color: string;
+//  position: number[];
+//}

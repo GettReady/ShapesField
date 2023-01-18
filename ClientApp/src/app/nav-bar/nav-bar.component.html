@@ -1,1 +1,19 @@
-<p>nav-bar works!</p>
+<nav>
+  <ul>
+    <li [routerLinkActive]="['link-active']">
+      <div class="nav-option" (click)="create()">
+        Создать
+      </div>
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <div class="nav-option">
+        Изменить
+      </div>
+    </li>
+    <li [routerLinkActive]="['link-active']">
+      <div class="nav-option">
+        Удалить
+      </div>
+    </li>
+  </ul>
+</nav>
