@@ -68,6 +68,15 @@ li:hover {
   border: 2px solid rgb(210,202,170);
 }
 
+.svg-stroke {
+  stroke-width: 5px;  
+  stroke: lightblue;
+}
+
+.svg-shadow {  
+  filter: drop-shadow( 0px 0px 7px lightblue);
+}
+
 @media (max-width: 900px) {
   nav {
     width: 100%;
