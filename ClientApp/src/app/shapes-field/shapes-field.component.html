@@ -1,26 +1,3 @@
 <svg id="svg-container" width="100%" height="100%">  
   <rect id="background" width="100%" height="100%" fill="transparent" (click)="deselect($event)"/>
-  <svg id="group1" width="100px" height="100px" (mousedown)="onStartRecording($event)" (mouseup)="stopRecording($event)">
-    <rect id="rect1" x="0" y="0" width="100" height="100" stroke="rgba(0,0,0,0.5)" fill="lightgray" stroke-width="1" />
-    <text x="50" y="50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name">Квадрат 1</text>
-  </svg>
-  <svg id="group2" width="100px" height="100px" x="150" (mousedown)="onStartRecording($event)" (mouseup)="stopRecording($event)">
-    <rect id="rect2" x="0" y="0" width="100" height="100" stroke="rgba(0,0,0,0.5)" fill="lightgray" stroke-width="1" />
-    <text x="50" y="50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name">Квадрат 2</text>
-  </svg>
-  <svg id="group3" width="100px" height="100px" y="200" (mousedown)="onStartRecording($event)" (mouseup)="stopRecording($event)">
-    <rect id="rect3" x="0" y="0" width="100" height="100" stroke="rgba(0,0,0,0.5)" fill="lightgray" stroke-width="1" />
-    <text x="50" y="50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name">Квадрат 3</text>
-  </svg>
-
-  <svg id="group4" width="100px" height="100px" x="300" y="300" (mousedown)="onStartRecording($event)" (mouseup)="stopRecording($event)">
-    <circle id="circle1" cx="50" cy="50" r="50" stroke="rgba(0,0,0,0.5)" fill="lightgreen" stroke-width="1" />
-    <text x="50" y="50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name">Квадрат 3</text>
-  </svg>
-
-  <svg id="group5" width="100px" height="100px" x="500" y="300" (mousedown)="onStartRecording($event)" (mouseup)="stopRecording($event)">
-    <polygon id="poly" points="0 100 50 0 100 100" stroke="rgba(0,0,0,0.5)" fill="lightgray" stroke-width="1" />
-    <text x="50" y="50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name">Квадрат 3</text>
-  </svg>
-
 </svg>

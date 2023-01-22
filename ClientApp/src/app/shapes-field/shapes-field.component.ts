@@ -16,20 +16,20 @@ export class ShapesFieldComponent implements OnInit {
     {
       name: "Квадрат Степан",
       type: "square",
-      color: "gray",
-      position: [500, 500]
+      color: "lightgray",
+      position: [500, 200]
     },
     {
       name: "Круг",
       type: "circle",
-      color: "green",
-      position: [600, 400]
+      color: "lightgreen",
+      position: [600, 150]
     },
     {
       name: "Треугольник",
       type: "triangle",
-      color: "gray",
-      position: [750, 800]
+      color: "lightgray",
+      position: [750, 300]
     }
   ];
 
@@ -46,11 +46,11 @@ export class ShapesFieldComponent implements OnInit {
   }
 
   drawShape(shape: Shape, index: number) {
-    let group_id = "group" + index;
-    let shape_element = `<svg id="${group_id}" x="${shape.position[0]}" y="${shape.position[1]}" width="100px" height="100px" (mousedown)="onStartRecording($event)" (mouseup)="stopRecording($event)">`;
+    let group_id = "group" + (index +100);
+    let shape_element = `<svg id="${group_id}" x="${shape.position[0]}" y="${shape.position[1]}" width="100px" height="100px">`;
     switch (shape.type) {
       case 'square':
-        shape_element += `<rect x="0" y="0" width="100" height="100" fill="${shape.color}"" stroke-width="1" stroke="rgba(0,0,0,0.5)" />`;
+        shape_element += `<rect x="0" y="0" width="100" height="100" fill="${shape.color}" stroke-width="1" stroke="rgba(0,0,0,0.5)" />`;
         break;  
       case 'circle':
         shape_element += `<circle cx="50" cy="50" r="50" fill="${shape.color}" stroke-width="1" stroke="rgba(0,0,0,0.5)" />`;
@@ -59,9 +59,11 @@ export class ShapesFieldComponent implements OnInit {
         shape_element += `<polygon points="0 100 50 0 100 100" fill="${shape.color}" stroke-width="1" stroke="rgba(0,0,0,0.5)" />`;
         break;
     }
-    shape_element += `<text x="50" y = "50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name" > ${shape.name}</text>`;
+    shape_element += `<text x="50" y = "50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name" > ${shape.name}</text>`;    
+    document.querySelector<HTMLElement>('#svg-container')!.insertAdjacentHTML('beforeend', shape_element);
     
-    document.querySelector<HTMLElement>('#svg-container')?.insertAdjacentHTML('beforeend', shape_element);    
+    document.querySelector('#' + group_id)!.addEventListener('mousedown', this.onStartRecording.bind(this));
+    document.querySelector('#' + group_id)!.addEventListener('mouseup', this.stopRecording.bind(this));
   }
 
   onStartRecording(event: any) {

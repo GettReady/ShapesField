@@ -68,6 +68,10 @@ li:hover {
   border: 2px solid rgb(210,202,170);
 }
 
+svg {
+  overflow-x: visible;  
+}
+
 .svg-stroke {
   stroke-width: 5px;  
   stroke: lightblue;
