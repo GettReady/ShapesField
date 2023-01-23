@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ShapesFieldComponent implements OnInit {
 
   selected_shape_id: string = "";
-  moveHandler = (event: any) => { this.moveEventHandler(event, this.selected_shape_id) };
+  moveHandler = (event: any) => { this.move(event, this.selected_shape_id) };
   offsetX!: number;
   offsetY!: number;
 
@@ -62,11 +62,11 @@ export class ShapesFieldComponent implements OnInit {
     shape_element += `<text x="50" y = "50" alignment-baseline="middle" text-anchor="middle" style="user-select: none" class="shape-name" > ${shape.name}</text>`;    
     document.querySelector<HTMLElement>('#svg-container')!.insertAdjacentHTML('beforeend', shape_element);
     
-    document.querySelector('#' + group_id)!.addEventListener('mousedown', this.onStartRecording.bind(this));
-    document.querySelector('#' + group_id)!.addEventListener('mouseup', this.stopRecording.bind(this));
+    document.querySelector('#' + group_id)!.addEventListener('mousedown', this.startMoving.bind(this));
+    document.querySelector('#' + group_id)!.addEventListener('mouseup', this.stopMoving.bind(this));
   }
 
-  onStartRecording(event: any) {
+  startMoving(event: any) {
     this.removeSelection();    
     this.addSelection(event.target.parentNode);    
 
@@ -80,12 +80,12 @@ export class ShapesFieldComponent implements OnInit {
     element!.classList.add('svg-shadow');
   }
 
-  stopRecording(event: any) {    
+  stopMoving(event: any) {    
     console.log('removing handler');
     document.removeEventListener("mousemove", this.moveHandler);    
   }  
 
-  moveEventHandler(event: any, element_id: string) {    
+  move(event: any, element_id: string) {    
     let element = document.querySelector<HTMLElement>(element_id);
     element!.setAttribute('x', "" + (event.clientX - this.offsetX));
     element!.setAttribute('y', "" + (event.clientY - 64 - this.offsetY));

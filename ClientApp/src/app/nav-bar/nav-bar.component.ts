@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
+
 export class NavBarComponent implements OnInit {
 
   constructor() { }
@@ -24,10 +25,3 @@ export class NavBarComponent implements OnInit {
 
   }
 }
-
-//interface Shape {
-//  type: string;
-//  name: string;
-//  color: string;
-//  position: number[];
-//}
