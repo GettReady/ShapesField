@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-shapes-field',
@@ -11,33 +12,16 @@ export class ShapesFieldComponent implements OnInit {
   moveHandler = (event: any) => { this.move(event, this.selected_shape_id) };
   offsetX!: number;
   offsetY!: number;
+  shapes_array: Shape[] = [];
 
-  shapes_array: Shape[] = [
-    {
-      name: "Квадрат Степан",
-      type: "square",
-      color: "lightgray",
-      position: [500, 200]
-    },
-    {
-      name: "Круг",
-      type: "circle",
-      color: "lightgreen",
-      position: [600, 150]
-    },
-    {
-      name: "Треугольник",
-      type: "triangle",
-      color: "lightgray",
-      position: [750, 300]
-    }
-  ];
-
-  constructor() { }
-
-  ngOnInit(): void {
-    this.initField(this.shapes_array);
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    http.get<Shape[]>(baseUrl + 'shapesfield').subscribe(result => {      
+      this.shapes_array = result;      
+      this.initField(this.shapes_array);
+    }, error => console.error(error));
   }
+
+  ngOnInit(): void { }
 
   initField(shapes_array: Shape[]) {
     shapes_array.forEach((element, index) => {
@@ -46,8 +30,8 @@ export class ShapesFieldComponent implements OnInit {
   }
 
   drawShape(shape: Shape, index: number) {
-    let group_id = "group" + (index +100);
-    let shape_element = `<svg id="${group_id}" x="${shape.position[0]}" y="${shape.position[1]}" width="100px" height="100px">`;
+    let group_id = "group" + index;
+    let shape_element = `<svg id="${group_id}" x="${shape.positionX}" y="${shape.positionY}" width="100px" height="100px">`;
     switch (shape.type) {
       case 'square':
         shape_element += `<rect x="0" y="0" width="100" height="100" fill="${shape.color}" stroke-width="1" stroke="rgba(0,0,0,0.5)" />`;
@@ -110,9 +94,10 @@ export class ShapesFieldComponent implements OnInit {
   }
 }
 
-type Shape = {
+type Shape = {  
   name: string;
   type: string;
   color: string;
-  position: number[];
+  positionX: number;
+  positionY: number;
 }
