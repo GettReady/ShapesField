@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ComponentRef, ViewChild } from '@angular/core';
+import { ActionFormComponent } from '../action-form/action-form.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,15 +14,32 @@ export class NavBarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  create() {
+  @ViewChild("actionForm", { read: ViewContainerRef }) vcr!: ViewContainerRef;
+  ref!: ComponentRef<ActionFormComponent>
+
+  openForm(action_type: "create" | "edit" | "delete") {
+    this.ref = this.vcr.createComponent(ActionFormComponent);
+    this.ref.instance.action_type = action_type;
+    this.ref.instance.remove_form.subscribe((event: any) => {
+      this.closeForm();
+    });
+  }
+
+  closeForm() {
+    const index = this.vcr.indexOf(this.ref.hostView);
+    if (index != -1) this.vcr.remove(index);
+  }
+
+  createShape() {
+    this.openForm("create");
+  }
+
+  editShape() {
+    this.openForm("edit");
 
   }
 
-  delete() {
-
-  }
-
-  edit() {
-
+  deleteShape() {
+    this.openForm("delete");
   }
 }

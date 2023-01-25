@@ -1,19 +1,20 @@
 <nav>
   <ul>
-    <li [routerLinkActive]="['link-active']">
-      <div class="nav-option" (click)="create()">
+    <li>
+      <div class="nav-option" (click)="createShape()">
         Создать
       </div>
     </li>
-    <li [routerLinkActive]="['link-active']">
-      <div class="nav-option">
+    <li>
+      <div class="nav-option" (click)="editShape()">
         Изменить
       </div>
     </li>
-    <li [routerLinkActive]="['link-active']">
-      <div class="nav-option">
+    <li>
+      <div class="nav-option" (click)="deleteShape()">
         Удалить
       </div>
     </li>
   </ul>
 </nav>
+<ng-container #actionForm></ng-container>
