@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Shape } from '../../models/Shape';
 
 @Component({
   selector: 'app-shapes-field',
@@ -96,12 +97,4 @@ export class ShapesFieldComponent implements OnInit {
       this.selected_shape = undefined;
     }
   }
-}
-
-type Shape = {  
-  name: string;
-  type: string;
-  color: string;
-  positionX: number;
-  positionY: number;
 }
