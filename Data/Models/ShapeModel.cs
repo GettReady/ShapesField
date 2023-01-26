@@ -1,4 +1,4 @@
-﻿namespace ShapesField.Models
+﻿namespace ShapesField.Data.Models
 {
     public class ShapeModel
     {
@@ -19,6 +19,16 @@
 
         public ShapeModel(string name, string type, string color, int posX, int posY)
         {
+            Name = name;
+            Type = type;
+            Color = color;
+            PositionX = posX;
+            PositionY = posY;
+        }
+
+        public ShapeModel(int id, string name, string type, string color, int posX, int posY)
+        {
+            Id = id;
             Name = name;
             Type = type;
             Color = color;

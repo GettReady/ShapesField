@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShapesField.Models;
+using ShapesField.Data;
+using ShapesField.Data.Models;
 
 namespace ShapesField.Controllers
 {
@@ -7,23 +8,24 @@ namespace ShapesField.Controllers
     [Route("[controller]")]
     public class ShapesFieldController : ControllerBase
     {
-        private static List<ShapeModel> default_shapes = new List<ShapeModel>{
-            new ShapeModel("Квадрат Степан", "square", "lightgray", 500, 200),
-            new ShapeModel("Круг", "circle", "lightgreen", 600, 150),
-            new ShapeModel("Треугольник", "triangle", "lightgray", 750, 300)
-        };
+        private readonly IShape Shape;
+
+        public ShapesFieldController(IShape shape)
+        {
+            Shape = shape;
+        }
 
         [HttpGet]
         public IEnumerable<ShapeModel> Get()
         {
             Console.WriteLine("Data sent!");            
-            return default_shapes;
+            return Shape.GetAllShapes();
         }
 
         [HttpPost]
         public void Post(ShapeModel shape)
-        {
-            default_shapes.Add(shape);
+        {            
+            Shape.AddShape(shape);
         }
     }
 }
