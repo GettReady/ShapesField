@@ -58,7 +58,7 @@ export class ActionFormComponent implements OnInit {
         console.log("Delete submit works");
         break;
     }
-    console.log(form.value);
+    
     this.sendRequest(form.value);
     this.remove_form.emit();
   }

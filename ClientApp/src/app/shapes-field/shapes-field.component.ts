@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Shape } from '../../models/Shape';
+import { SignalrService } from '../../services/signalr.service';
 
 @Component({
   selector: 'app-shapes-field',
@@ -8,7 +9,8 @@ import { Shape } from '../../models/Shape';
   styleUrls: ['./shapes-field.component.css']
 })
 export class ShapesFieldComponent implements OnInit {
-    
+
+  static group_number: number = 0;
   selected_shape?: Shape;
   selected_element?: HTMLElement;
   shapes_container?: HTMLElement | null;
@@ -19,14 +21,24 @@ export class ShapesFieldComponent implements OnInit {
   offsetY!: number;
   moveHandler = (event: any) => { this.move(event) };
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public signalRService: SignalrService) {
     http.get<Shape[]>(baseUrl + 'shapesfield').subscribe(result => {      
       this.shapes_array = result;      
       this.initField(this.shapes_array);
     }, error => console.error(error));
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.signalRService.startConnection();
+    this.signalRService.addDataListener(this.updateShape.bind(this));
+  }
+
+  updateShape() {
+    if (this.signalRService.shape) {
+      this.shapes_array.push(this.signalRService.shape);
+      this.drawShape(this.signalRService.shape, 0);
+    }    
+  }
 
   initField(shapes_array: Shape[]) {
     this.shapes_container = document.querySelector<HTMLElement>('#' + this.shapes_container_id);
@@ -35,8 +47,10 @@ export class ShapesFieldComponent implements OnInit {
     });
   }
 
-  drawShape(shape: Shape, index: number) {
-    let group_id = "group" + index;
+  drawShape(shape: Shape, index: number) {    
+    let group_id = "group" + ShapesFieldComponent.group_number;
+    ++ShapesFieldComponent.group_number;
+
     this.shapes_id_array.push(group_id);
     let shape_element = `<svg id="${group_id}" x="${shape.positionX}" y="${shape.positionY}" width="100px" height="100px">`;
     switch (shape.type) {

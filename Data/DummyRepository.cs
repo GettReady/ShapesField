@@ -12,7 +12,17 @@ namespace ShapesField.Data
 
         public void AddShape(ShapeModel shape)
         {
-            default_shapes.Add(shape);
+            if (shape.Name != null)
+            {
+                if (shape.Type == null || shape.Type == "")
+                {
+                    shape.Type = "square";
+                }
+                shape.Id = default_shapes.Count();
+                default_shapes.Add(shape);
+                return;
+            }
+            throw new ArgumentNullException("name");
         }
 
         public void EditShapeById(int id, ShapeModel new_shape)
@@ -30,6 +40,7 @@ namespace ShapesField.Data
                     return;
                 }
             }
+            throw new KeyNotFoundException();
         }
 
         public IEnumerable<ShapeModel> GetAllShapes()
@@ -56,8 +67,10 @@ namespace ShapesField.Data
                 if (shape.Id == id)
                 {
                     default_shapes.Remove(shape);
+                    return;
                 }
             }
+            throw new KeyNotFoundException();
         }
     }
 }

@@ -1,8 +1,10 @@
 using ShapesField.Data;
+using ShapesField.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 builder.Services.AddScoped<IShape, DummyRepository>();
 
 var app = builder.Build();
@@ -17,6 +19,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.MapHub<ShapesFieldHub>("/hub");
 
 app.MapControllerRoute(
     name: "default",
