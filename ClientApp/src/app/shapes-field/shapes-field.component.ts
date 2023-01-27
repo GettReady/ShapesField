@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Shape } from '../../models/Shape';
-import { SignalrService } from '../../services/signalr.service';
+import { SignalrService } from '../../services/signalr/signalr.service';
+import { ShapeSelectionService } from '../../services/shape-selection/shape-selection.service';
 
 @Component({
   selector: 'app-shapes-field',
@@ -21,7 +22,7 @@ export class ShapesFieldComponent implements OnInit {
   offsetY!: number;
   moveHandler = (event: any) => { this.move(event) };
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public signalRService: SignalrService) {
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public signalRService: SignalrService, private data: ShapeSelectionService) {
     http.get<Shape[]>(baseUrl + 'shapesfield').subscribe(result => {      
       this.shapes_array = result;      
       this.initField(this.shapes_array);
@@ -100,6 +101,9 @@ export class ShapesFieldComponent implements OnInit {
   addSelection(parent_element: HTMLElement) {
     this.selected_element = parent_element;
     this.selected_shape = this.shapes_array[this.shapes_id_array.indexOf(parent_element.id)];
+
+    this.data.selectShape(this.selected_shape);
+
     parent_element.children[0].classList.add('svg-stroke');
   }
 
@@ -109,6 +113,8 @@ export class ShapesFieldComponent implements OnInit {
       this.selected_element!.children[0].classList.remove('svg-stroke');
       this.selected_element = undefined;
       this.selected_shape = undefined;
+
+      this.data.deselectShape();
     }
   }
 }

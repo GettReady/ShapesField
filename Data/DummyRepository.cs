@@ -5,9 +5,9 @@ namespace ShapesField.Data
     public class DummyRepository : IShape
     {
         private static List<ShapeModel> default_shapes = new List<ShapeModel>{
-            new ShapeModel(0, "Квадрат Степан", "square", "lightgray", 500, 200),
-            new ShapeModel(1, "Круг", "circle", "lightgreen", 600, 150),
-            new ShapeModel(2, "Треугольник", "triangle", "lightgray", 750, 300)
+            new ShapeModel(0, "Квадрат Степан", "square", "#D3D3D3", 500, 200),
+            new ShapeModel(1, "Круг", "circle", "#90EE90", 600, 150),
+            new ShapeModel(2, "Треугольник", "triangle", "#D3D3D3", 750, 300)
         };
 
         public void AddShape(ShapeModel shape)

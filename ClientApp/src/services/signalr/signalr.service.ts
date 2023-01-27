@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Shape } from '../models/Shape';
+import { Shape } from '../../models/Shape';
 
 @Injectable({
   providedIn: 'root'

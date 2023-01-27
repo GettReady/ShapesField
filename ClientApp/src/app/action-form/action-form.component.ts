@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular
 import { Observable } from 'rxjs';
 import { Shape } from '../../models/Shape';
 import { NgForm } from '@angular/forms';
+import { ShapeSelectionService } from '../../services/shape-selection/shape-selection.service';
 
 @Component({
   selector: 'app-action-form',
@@ -17,10 +18,12 @@ export class ActionFormComponent implements OnInit {
   private static backgroundContainerId = "background-container";
   private static cancelButtonContainerId = "close-btn";
   formHeader: string = "";
+  shape?: Shape;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private data: ShapeSelectionService) { }
 
   ngOnInit(): void {
+    this.data.selectedShape.subscribe((shape) => { this.shape = shape; });
     this.setUpForm(this.action_type);
   }
 
@@ -37,7 +40,7 @@ export class ActionFormComponent implements OnInit {
         parent!.style.height = "225px";
         this.formHeader = "Создание фигуры";
         break;
-      case "edit":
+      case "edit":        
         this.formHeader = "Изменение фигуры";
         break;
       case "delete":
