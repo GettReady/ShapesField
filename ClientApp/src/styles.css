@@ -60,12 +60,28 @@ ul {
   font-family: Tahoma;
   color: #303B41;
   cursor: pointer;
-}
 
-li:hover {
-  background-color: #D9F5FF;
   background-color: rgb(255,242,204);
   border: 2px solid rgb(210,202,170);
+}
+
+  .nav-option:hover {
+    background-color: rgb(255,242,224);
+    border-color: rgb(190,182,160);    
+  }
+
+.nav-option-disabled {
+  display: block;
+  line-height: 40px;
+  text-decoration: none;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  font-family: Tahoma;
+  color: #303B41;
+  cursor: not-allowed;
+
+  background-color: rgba(220,220,220, 1);
+  border: 2px solid rgba(0,0,0,0.4);
 }
 
 svg {
@@ -97,7 +113,7 @@ svg {
   right: 0;
   margin: auto;
   padding: 20px 30px;
-  width: 700px;
+  width: 500px;
   height: 270px;  
   background-color: white;
   border-radius: 15px;

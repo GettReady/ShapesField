@@ -45,7 +45,7 @@ export class ActionFormComponent implements OnInit {
         break;
       case "delete":
         this.formHeader = "Удаление фигуры";
-        parent!.style.height = "190px";
+        parent!.style.height = "200px";        
         break;
     }
   }
@@ -67,6 +67,7 @@ export class ActionFormComponent implements OnInit {
       case "delete":
         if (this.shape) {
           this.sendDeleteRequest(this.shape);
+          this.data.deselectShape();
         }
         break;
     }

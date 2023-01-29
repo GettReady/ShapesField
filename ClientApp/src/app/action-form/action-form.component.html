@@ -1,10 +1,14 @@
 <div id="{{backgroundContainerId}}" class="form-background" (click)="closeForm($event)">  
   <div id="form-container" class="form-container">
     <form #actionForm="ngForm" (ngSubmit)="onSubmit(actionForm)" class="action-form">
-      <h2>{{formHeader}}</h2>      
-      <div *ngIf="action_type=='create' || action_type=='edit'" class="input-line">
+      <h2>{{formHeader}}</h2>
+      <div *ngIf="action_type=='create'" class="input-line">
         <label for="input-name" class="form-block">Имя:</label>
-        <input id="input-name" type="text" name="name" class="form-block" [ngModel]="shape?.name">
+        <input id="input-name" type="text" name="name" class="form-block" [ngModel] ngNativeValidate  />
+      </div>
+      <div *ngIf="action_type=='edit'" class="input-line">
+        <label for="input-name" class="form-block">Имя:</label>
+        <input id="input-name" type="text" name="name" class="form-block" [ngModel]="shape?.name" />
       </div>
       <div *ngIf="action_type=='create' || action_type=='edit'" class="input-line">
         <label for="input-type" class="form-block">Тип:</label>
@@ -16,12 +20,12 @@
       </div>
       <div *ngIf="action_type=='edit'" class="input-line">
         <label for="input-color" class="form-block">Цвет:</label>
-        <input id="input-color" type="color" name="color" class="form-block" [ngModel]="shape?.color">
+        <input id="input-color" type="color" name="color" class="form-block" [ngModel]="shape?.color" />
       </div>
       <p *ngIf="action_type=='delete'">Вы действительно хотите удалить фигуру "{{shape?.name}}"?</p>
       <div class="buttons-container" style="{{action_type=='delete' ? 'margin-left: 0' : ''}}">
-        <input type="submit" value="{{action_type=='create' ? 'Добавить' : action_type=='edit' ? 'Изменить' : 'Удалить'}}" class="form-block">
-        <input id="{{cancelButtonContainerId}}" type="button" value="Отмена" class="form-block" (click)="closeForm($event)">
+        <input type="submit" value="{{action_type=='create' ? 'Добавить' : action_type=='edit' ? 'Изменить' : 'Удалить'}}" class="form-block" />
+        <input id="{{cancelButtonContainerId}}" type="button" value="Отмена" class="form-block" (click)="closeForm($event)" />
       </div>
     </form>
   </div>

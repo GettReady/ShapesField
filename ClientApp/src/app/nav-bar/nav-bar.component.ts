@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewContainerRef, ComponentRef, ViewChild } from '@angular/core';
+import { Shape } from '../../models/Shape';
+import { ShapeSelectionService } from '../../services/shape-selection/shape-selection.service';
 import { ActionFormComponent } from '../action-form/action-form.component';
 
 @Component({
@@ -9,9 +11,12 @@ import { ActionFormComponent } from '../action-form/action-form.component';
 
 export class NavBarComponent implements OnInit {
 
-  constructor() { }
+  shape?: Shape;
+
+  constructor(private data: ShapeSelectionService) { }
 
   ngOnInit(): void {
+    this.data.selectedShape.subscribe((shape) => { this.shape = shape; });
   }
 
   @ViewChild("actionForm", { read: ViewContainerRef }) vcr!: ViewContainerRef;
@@ -35,11 +40,12 @@ export class NavBarComponent implements OnInit {
   }
 
   editShape() {
-    this.openForm("edit");
-
+    if(this.shape)
+      this.openForm("edit");
   }
 
   deleteShape() {
-    this.openForm("delete");
+    if (this.shape)
+      this.openForm("delete");
   }
 }

@@ -6,12 +6,12 @@
       </div>
     </li>
     <li>
-      <div class="nav-option" (click)="editShape()">
+      <div [ngClass]="(shape) ? 'nav-option' : 'nav-option-disabled'" (click)="editShape()">
         Изменить
       </div>
     </li>
     <li>
-      <div class="nav-option" (click)="deleteShape()">
+      <div [ngClass]="(shape) ? 'nav-option' : 'nav-option-disabled'" (click)="deleteShape()">
         Удалить
       </div>
     </li>
