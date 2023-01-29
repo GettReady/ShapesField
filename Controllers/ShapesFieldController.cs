@@ -36,12 +36,14 @@ namespace ShapesField.Controllers
         public void Put(ShapeModel shape)
         {
             Shape.EditShapeById(shape.Id, shape);
+            Hub.Clients.All.SendAsync("EditShape", shape);            
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
-            Shape.RemoveShapeById(id);            
+            Shape.RemoveShapeById(id);
+            Hub.Clients.All.SendAsync("RemoveShape", id);
         }
 
     }

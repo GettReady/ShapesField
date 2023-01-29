@@ -15,8 +15,8 @@ export class ActionFormComponent implements OnInit {
   @Input() action_type: "create" | "edit" | "delete" = "create";
   @Output() remove_form = new EventEmitter();
 
-  private static backgroundContainerId = "background-container";
-  private static cancelButtonContainerId = "close-btn";
+  backgroundContainerId = "background-container";
+  cancelButtonContainerId = "close-btn";
   formHeader: string = "";
   shape?: Shape;
 
@@ -28,7 +28,7 @@ export class ActionFormComponent implements OnInit {
   }
 
   closeForm(event: any) {
-    if (event.target.id == ActionFormComponent.backgroundContainerId || event.target.id == ActionFormComponent.cancelButtonContainerId) {      
+    if (event.target.id == this.backgroundContainerId || event.target.id == this.cancelButtonContainerId) {      
       this.remove_form.emit();
     }
   }
@@ -52,23 +52,37 @@ export class ActionFormComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     switch (this.action_type) {
-      case "create":        
+      case "create":
+        this.sendPostRequest(form.value);
         break;
       case "edit":
-        console.log("Edit submit works");
+        if (this.shape) {
+          let new_shape: Shape = form.value;
+          new_shape.id = this.shape.id;
+          new_shape.positionX = this.shape.positionX;
+          new_shape.positionY = this.shape.positionY;
+          this.sendPutRequest(new_shape);
+        }
         break;
       case "delete":
-        console.log("Delete submit works");
+        if (this.shape) {
+          this.sendDeleteRequest(this.shape);
+        }
         break;
     }
-    
-    this.sendRequest(form.value);
+
     this.remove_form.emit();
   }
 
-  sendRequest(data: Shape) {
-    console.log('sending request');
+  sendPostRequest(data: Shape) {    
     this.http.post(this.baseUrl + 'shapesfield', data).subscribe();
   }
 
+  sendPutRequest(data: Shape) {
+    this.http.put(this.baseUrl + 'shapesfield', data).subscribe();
+  }
+
+  sendDeleteRequest(data: Shape) {
+    this.http.delete(this.baseUrl + 'shapesfield' + '/?id=' + data.id).subscribe();
+  }
 }

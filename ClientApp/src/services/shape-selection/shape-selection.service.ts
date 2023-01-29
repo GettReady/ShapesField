@@ -7,7 +7,7 @@ import { Shape } from '../../models/Shape';
 })
 export class ShapeSelectionService {
 
-  private dataSource = new ReplaySubject<Shape | undefined>();
+  private dataSource = new ReplaySubject<Shape | undefined>(1);
   selectedShape = this.dataSource.asObservable();
 
   constructor() { }

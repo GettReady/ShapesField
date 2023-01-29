@@ -1,4 +1,4 @@
-<div id="background-container" class="form-background" (click)="closeForm($event)">  
+<div id="{{backgroundContainerId}}" class="form-background" (click)="closeForm($event)">  
   <div id="form-container" class="form-container">
     <form #actionForm="ngForm" (ngSubmit)="onSubmit(actionForm)" class="action-form">
       <h2>{{formHeader}}</h2>      
@@ -21,7 +21,7 @@
       <p *ngIf="action_type=='delete'">Вы действительно хотите удалить фигуру "{{shape?.name}}"?</p>
       <div class="buttons-container" style="{{action_type=='delete' ? 'margin-left: 0' : ''}}">
         <input type="submit" value="{{action_type=='create' ? 'Добавить' : action_type=='edit' ? 'Изменить' : 'Удалить'}}" class="form-block">
-        <input id="close-btn" type="button" value="Отмена" class="form-block" (click)="closeForm($event)">
+        <input id="{{cancelButtonContainerId}}" type="button" value="Отмена" class="form-block" (click)="closeForm($event)">
       </div>
     </form>
   </div>

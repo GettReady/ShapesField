@@ -10,6 +10,8 @@ namespace ShapesField.Data
             new ShapeModel(2, "Треугольник", "triangle", "#D3D3D3", 750, 300)
         };
 
+        private static int idCount = default_shapes.Count();
+
         public void AddShape(ShapeModel shape)
         {
             if (shape.Name != null)
@@ -18,7 +20,8 @@ namespace ShapesField.Data
                 {
                     shape.Type = "square";
                 }
-                shape.Id = default_shapes.Count();
+                shape.Id = idCount++;                
+                shape.Color = "#D3D3D3";
                 default_shapes.Add(shape);
                 return;
             }

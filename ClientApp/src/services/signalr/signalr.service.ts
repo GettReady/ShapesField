@@ -23,12 +23,35 @@ export class SignalrService {
       .catch(err => console.log(err));    
   }
 
-  public addDataListener = (callback: Function) => {    
+  public addNewShapeListener = (callback: Function) => {    
     if (this.hubConnection) {      
       this.hubConnection.on('AddNewShape', (data) => {
         this.shape = data;        
         console.log('AddNewShape', data);
         callback();
+      });
+    } else {
+      console.log('No hub connection');
+    }
+  }
+
+  public addEditListener = (callback: Function) => {
+    if (this.hubConnection) {
+      this.hubConnection.on('EditShape', (data) => {
+        this.shape = data;
+        console.log('EditShape', data);
+        callback();
+      });
+    } else {
+      console.log('No hub connection');
+    }
+  }
+
+  public addRemoveListener = (callback: Function) => {
+    if (this.hubConnection) {
+      this.hubConnection.on('RemoveShape', (data) => {        
+        console.log('RemoveShape', data);
+        callback(data as number);
       });
     } else {
       console.log('No hub connection');
