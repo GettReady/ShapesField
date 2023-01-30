@@ -5,9 +5,10 @@ namespace ShapesField.Data
     public interface IShape
     {
         IEnumerable<ShapeModel> GetAllShapes();
+        IEnumerable<ShapeModel> GetShapesRange(int amountToSkip, int amountToTake);
         ShapeModel GetShapeById(int id);
-        void AddShape(ShapeModel shape);
+        ShapeModel AddShape(ShapeModel shape);
         void RemoveShapeById(int id);
-        void EditShapeById(int id, ShapeModel new_shape);
+        ShapeModel EditShapeById(int id, ShapeModel new_shape);
     }
 }

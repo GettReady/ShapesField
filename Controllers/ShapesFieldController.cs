@@ -28,17 +28,23 @@ namespace ShapesField.Controllers
             return Shape.GetAllShapes();
         }
 
+        [HttpGet]
+        public IEnumerable<ShapeModel> Get(int skip, int take)
+        {
+            return Shape.GetShapesRange(skip, take);
+        }
+
         [HttpPost]
         public IActionResult Post(ShapeModel shape)
         {
             try
             {
-                Shape.AddShape(shape);
+                ShapeModel new_shape = Shape.AddShape(shape);
                 if (Counter.Count() > 0)
                 {
                     Hub.Clients.All.SendAsync("AddNewShape", shape);
                 }
-                return Ok();
+                return Ok(new_shape);
             }
             catch
             {
@@ -51,12 +57,12 @@ namespace ShapesField.Controllers
         {
             try
             {
-                Shape.EditShapeById(shape.Id, shape);
+                ShapeModel new_shape = Shape.EditShapeById(shape.Id, shape);
                 if (Counter.Count() > 0)
                 {
                     Hub.Clients.All.SendAsync("EditShape", shape);
                 }
-                return Ok();
+                return Ok(new_shape);
             }
             catch (Exception ex)
             {
