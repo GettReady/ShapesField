@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShapesField.Data.Models;
+using ShapesField.Data.Interfaces;
 
-namespace ShapesField.Data
+namespace ShapesField.Data.Repositories
 {
     public class ShapesRepository : IShape
     {
@@ -27,9 +28,9 @@ namespace ShapesField.Data
             {
                 shape.Name = new_shape.Name;
                 shape.Type = new_shape.Type;
-                if (shape.Type == "circle" || new_shape.Type=="circle")
+                if (shape.Type == "circle" || new_shape.Type == "circle")
                     shape.Color = new_shape.Color;
-                else 
+                else
                     shape.Color = "#D3D3D3";
                 shape.PositionX = new_shape.PositionX;
                 shape.PositionY = new_shape.PositionY;
@@ -60,13 +61,13 @@ namespace ShapesField.Data
             else
             {
                 throw new Exception("Amount of shapes to skip cannot be a negative number");
-            }            
+            }
         }
 
         public ShapeModel GetShapeById(int id)
         {
             ShapeModel shape = dbContext.Shapes.Find(id);
-            if(shape != null)
+            if (shape != null)
                 return shape;
             throw new KeyNotFoundException();
         }
@@ -74,7 +75,8 @@ namespace ShapesField.Data
         public void RemoveShapeById(int id)
         {
             ShapeModel shape = dbContext.Shapes.Find(id);
-            if (shape != null) {
+            if (shape != null)
+            {
                 dbContext.Shapes.Remove(shape);
                 dbContext.SaveChanges();
                 return;

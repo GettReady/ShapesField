@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShapesField.Data;
+using ShapesField.Data.Interfaces;
+using ShapesField.Data.Repositories;
 using ShapesField.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);

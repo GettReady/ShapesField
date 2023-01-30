@@ -1,6 +1,7 @@
 ﻿using ShapesField.Data.Models;
+using ShapesField.Data.Interfaces;
 
-namespace ShapesField.Data
+namespace ShapesField.Data.Repositories
 {
     public class DummyRepository : IShape
     {
@@ -20,7 +21,7 @@ namespace ShapesField.Data
                 {
                     shape.Type = "square";
                 }
-                shape.Id = idCount++;                
+                shape.Id = idCount++;
                 shape.Color = "#D3D3D3";
                 default_shapes.Add(shape);
                 return;
@@ -30,13 +31,13 @@ namespace ShapesField.Data
 
         public void EditShapeById(int id, ShapeModel new_shape)
         {
-            foreach(ShapeModel shape in default_shapes)
+            foreach (ShapeModel shape in default_shapes)
             {
-                if(shape.Id == id)
+                if (shape.Id == id)
                 {
                     shape.Name = new_shape.Name;
-                    shape.Type= new_shape.Type;
-                    if(shape.Type == "circle")
+                    shape.Type = new_shape.Type;
+                    if (shape.Type == "circle")
                         shape.Color = new_shape.Color;
                     shape.PositionX = new_shape.PositionX;
                     shape.PositionY = new_shape.PositionY;
@@ -56,11 +57,16 @@ namespace ShapesField.Data
             foreach (ShapeModel shape in default_shapes)
             {
                 if (shape.Id == id)
-                {                    
+                {
                     return shape;
                 }
             }
             throw new KeyNotFoundException();
+        }
+
+        public IEnumerable<ShapeModel> GetShapesRange(int amountToSkip, int amountToTake)
+        {
+            throw new NotImplementedException();
         }
 
         public void RemoveShapeById(int id)
@@ -74,6 +80,16 @@ namespace ShapesField.Data
                 }
             }
             throw new KeyNotFoundException();
+        }
+
+        ShapeModel IShape.AddShape(ShapeModel shape)
+        {
+            throw new NotImplementedException();
+        }
+
+        ShapeModel IShape.EditShapeById(int id, ShapeModel new_shape)
+        {
+            throw new NotImplementedException();
         }
     }
 }

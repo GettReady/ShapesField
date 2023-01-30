@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using ShapesField.Data.Models;
-using ShapesField.Data;
 using ShapesField.Hubs;
 using System.Diagnostics;
+using ShapesField.Data.Interfaces;
 
 namespace ShapesField.Controllers
 {

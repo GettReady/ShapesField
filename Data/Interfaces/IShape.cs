@@ -1,6 +1,6 @@
 ﻿using ShapesField.Data.Models;
 
-namespace ShapesField.Data
+namespace ShapesField.Data.Interfaces
 {
     public interface IShape
     {
