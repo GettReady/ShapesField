@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using ShapesField.Data.Models;
 using ShapesField.Data;
 using ShapesField.Hubs;
+using System.Diagnostics;
 
 namespace ShapesField.Controllers
 {
@@ -12,11 +13,13 @@ namespace ShapesField.Controllers
     {
         private readonly IShape Shape;
         private readonly IHubContext<ShapesFieldHub> Hub;
+        private readonly HubConnectionCounter Counter;
 
-        public ShapesFieldController(IShape shape, IHubContext<ShapesFieldHub> hub)
+        public ShapesFieldController(IShape shape, IHubContext<ShapesFieldHub> hub, HubConnectionCounter counter)
         {
             Shape = shape;
             Hub = hub;
+            Counter = counter;
         }
 
         [HttpGet]
@@ -29,21 +32,30 @@ namespace ShapesField.Controllers
         public void Post(ShapeModel shape)
         {            
             Shape.AddShape(shape);
-            Hub.Clients.All.SendAsync("AddNewShape", shape);
+            if(Counter.Count() > 0)
+            {                
+                Hub.Clients.All.SendAsync("AddNewShape", shape);
+            }            
         }
 
         [HttpPut]
         public void Put(ShapeModel shape)
         {
             Shape.EditShapeById(shape.Id, shape);
-            Hub.Clients.All.SendAsync("EditShape", shape);            
+            if (Counter.Count() > 0)
+            {                
+                Hub.Clients.All.SendAsync("EditShape", shape);
+            }
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
             Shape.RemoveShapeById(id);
-            Hub.Clients.All.SendAsync("RemoveShape", id);
+            if (Counter.Count() > 0)
+            {
+                Hub.Clients.All.SendAsync("RemoveShape", id);
+            }
         }
 
     }
