@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Shape } from '../../models/Shape';
 import { NgForm } from '@angular/forms';
 import { ShapeSelectionService } from '../../services/shape-selection/shape-selection.service';
+import { HttpRequestsService } from '../../services/http-requests/http-requests.service';
 
 @Component({
   selector: 'app-action-form',
@@ -20,7 +19,7 @@ export class ActionFormComponent implements OnInit {
   formHeader: string = "";
   shape?: Shape;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private data: ShapeSelectionService) { }
+  constructor(private data: ShapeSelectionService, private request: HttpRequestsService) { }
 
   ngOnInit(): void {
     this.data.selectedShape.subscribe((shape) => { this.shape = shape; });
@@ -53,7 +52,7 @@ export class ActionFormComponent implements OnInit {
   onSubmit(form: NgForm) {
     switch (this.action_type) {
       case "create":
-        this.sendPostRequest(form.value);
+        this.request.addNewShape(form.value).subscribe();
         break;
       case "edit":
         if (this.shape) {
@@ -61,29 +60,17 @@ export class ActionFormComponent implements OnInit {
           new_shape.id = this.shape.id;
           new_shape.positionX = this.shape.positionX;
           new_shape.positionY = this.shape.positionY;
-          this.sendPutRequest(new_shape);
+          this.request.editShape(new_shape).subscribe();
         }
         break;
       case "delete":
         if (this.shape) {
-          this.sendDeleteRequest(this.shape);
+          this.request.deleteShape(this.shape).subscribe();
           this.data.deselectShape();
         }
         break;
     }
 
     this.remove_form.emit();
-  }
-
-  sendPostRequest(data: Shape) {    
-    this.http.post(this.baseUrl + 'shapesfield', data).subscribe();
-  }
-
-  sendPutRequest(data: Shape) {
-    this.http.put(this.baseUrl + 'shapesfield', data).subscribe();
-  }
-
-  sendDeleteRequest(data: Shape) {
-    this.http.delete(this.baseUrl + 'shapesfield' + '/?id=' + data.id).subscribe();
   }
 }

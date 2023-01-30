@@ -28,7 +28,7 @@ namespace ShapesField.Controllers
             return Shape.GetAllShapes();
         }
 
-        [HttpGet]
+        [HttpGet("skip={skip}&take={take}")]
         public IEnumerable<ShapeModel> Get(int skip, int take)
         {
             return Shape.GetShapesRange(skip, take);

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Shape } from '../../models/Shape';
 import { SignalrService } from '../../services/signalr/signalr.service';
 import { ShapeSelectionService } from '../../services/shape-selection/shape-selection.service';
+import { HttpRequestsService } from '../../services/http-requests/http-requests.service';
 
 @Component({
   selector: 'app-shapes-field',
@@ -11,6 +12,7 @@ import { ShapeSelectionService } from '../../services/shape-selection/shape-sele
 })
 export class ShapesFieldComponent implements OnInit {
 
+  readonly shapes_max_number = 10;
   static group_number: number = 0;
   selected_shape?: Shape;
   selected_element?: HTMLElement;
@@ -23,11 +25,19 @@ export class ShapesFieldComponent implements OnInit {
   is_moving: boolean = false;
   moveHandler = (event: any) => { this.move(event) };
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, public signalRService: SignalrService, private data: ShapeSelectionService) {
-    http.get<Shape[]>(baseUrl + 'shapesfield').subscribe(result => {      
+  constructor(private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string,
+    public signalRService: SignalrService,
+    private data: ShapeSelectionService,
+    private request: HttpRequestsService) {
+    //http.get<Shape[]>(baseUrl + 'shapesfield').subscribe(result => {
+    //  this.shapes_array = result;
+    //  this.initField(this.shapes_array);
+    //  }, error => console.error(error));
+    this.request.getShapesRange(0, this.shapes_max_number).subscribe(result => {
       this.shapes_array = result;
       this.initField(this.shapes_array);
-    }, error => console.error(error));
+    }, error => console.error(error));;
   }
 
   ngOnInit(): void {
@@ -60,6 +70,8 @@ export class ShapesFieldComponent implements OnInit {
 
   removeShape(id: number) {
     let delete_id = this.shapes_array.findIndex(el => el.id == id);
+    if (this.selected_shape?.id == id)
+      this.data.deselectShape();
     if (delete_id >= 0) {
       let element = document.querySelector<HTMLElement>('#' + this.shapes_id_array[delete_id]);
       element?.remove();
@@ -132,8 +144,8 @@ export class ShapesFieldComponent implements OnInit {
     if (this.is_moving) {
       if (this.selected_shape) {
         this.selected_shape.positionX = Number(this.selected_element?.getAttribute('x'));
-        this.selected_shape.positionY = Number(this.selected_element?.getAttribute('y'));
-        this.sendPutRequest(this.selected_shape);
+        this.selected_shape.positionY = Number(this.selected_element?.getAttribute('y'));        
+        this.request.editShape(this.selected_shape).subscribe();
       }
       this.is_moving = false;
     }
@@ -169,9 +181,5 @@ export class ShapesFieldComponent implements OnInit {
 
       this.data.deselectShape();
     }
-  }
-
-  sendPutRequest(data: Shape) {
-    this.http.put(this.baseUrl + 'shapesfield', data).subscribe(result => { }, error => console.error(error));
   }
 }
