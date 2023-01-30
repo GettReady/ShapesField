@@ -29,34 +29,65 @@ namespace ShapesField.Controllers
         }
 
         [HttpPost]
-        public void Post(ShapeModel shape)
-        {            
-            Shape.AddShape(shape);
-            if(Counter.Count() > 0)
-            {                
-                Hub.Clients.All.SendAsync("AddNewShape", shape);
+        public IActionResult Post(ShapeModel shape)
+        {
+            try
+            {
+                Shape.AddShape(shape);
+                if (Counter.Count() > 0)
+                {
+                    Hub.Clients.All.SendAsync("AddNewShape", shape);
+                }
+                return Ok();
+            }
+            catch
+            {
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }            
         }
 
         [HttpPut]
-        public void Put(ShapeModel shape)
+        public IActionResult Put(ShapeModel shape)
         {
-            Shape.EditShapeById(shape.Id, shape);
-            if (Counter.Count() > 0)
-            {                
-                Hub.Clients.All.SendAsync("EditShape", shape);
+            try
+            {
+                Shape.EditShapeById(shape.Id, shape);
+                if (Counter.Count() > 0)
+                {
+                    Hub.Clients.All.SendAsync("EditShape", shape);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                if(ex is KeyNotFoundException)
+                {
+                    return BadRequest("Shape's id was not found");
+                }
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            Shape.RemoveShapeById(id);
-            if (Counter.Count() > 0)
+            try
             {
-                Hub.Clients.All.SendAsync("RemoveShape", id);
+                Shape.RemoveShapeById(id);
+                if (Counter.Count() > 0)
+                {
+                    Hub.Clients.All.SendAsync("RemoveShape", id);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                if (ex is KeyNotFoundException)
+                {
+                    return BadRequest("Shape's id was not found");
+                }
+                return BadRequest(ex.Message);
             }
         }
-
     }
 }
