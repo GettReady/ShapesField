@@ -29,15 +29,13 @@ export class ShapesFieldComponent implements OnInit {
     @Inject('BASE_URL') private baseUrl: string,
     public signalRService: SignalrService,
     private data: ShapeSelectionService,
-    private request: HttpRequestsService) {
-    //http.get<Shape[]>(baseUrl + 'shapesfield').subscribe(result => {
-    //  this.shapes_array = result;
-    //  this.initField(this.shapes_array);
-    //  }, error => console.error(error));
+    private request: HttpRequestsService)
+  {
     this.request.getShapesRange(0, this.shapes_max_number).subscribe(result => {
       this.shapes_array = result;
       this.initField(this.shapes_array);
-    }, error => console.error(error));;
+    }, error => console.error(error));
+    this.data.setMaxCounter(this.shapes_max_number);
   }
 
   ngOnInit(): void {
@@ -51,6 +49,7 @@ export class ShapesFieldComponent implements OnInit {
     if (this.signalRService.shape) {
       this.shapes_array.push(this.signalRService.shape);
       this.appendShape(this.signalRService.shape);
+      this.data.incrementCounter();
     }
   }
 
@@ -77,6 +76,7 @@ export class ShapesFieldComponent implements OnInit {
       element?.remove();
       this.shapes_id_array.splice(delete_id, 1);
       this.shapes_array.splice(delete_id, 1);
+      this.data.decrementCounter();
     }
   }
 
@@ -84,6 +84,7 @@ export class ShapesFieldComponent implements OnInit {
     this.shapes_container = document.querySelector<HTMLElement>('#' + this.shapes_container_id);
     shapes_array.forEach((element, index) => {
       this.appendShape(element);
+      this.data.incrementCounter();
     });
   }
 

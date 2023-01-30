@@ -1,7 +1,7 @@
 <nav>
   <ul>
     <li>
-      <div class="nav-option" (click)="createShape()">
+      <div [ngClass]="(shape_counter < max_counter_value ) ? 'nav-option' : 'nav-option-disabled'" (click)="createShape()">
         Создать
       </div>
     </li>

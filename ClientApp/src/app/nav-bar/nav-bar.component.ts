@@ -12,11 +12,15 @@ import { ActionFormComponent } from '../action-form/action-form.component';
 export class NavBarComponent implements OnInit {
 
   shape?: Shape;
+  shape_counter = 0;
+  max_counter_value = 10;
 
   constructor(private data: ShapeSelectionService) { }
 
   ngOnInit(): void {
     this.data.selectedShape.subscribe((shape) => { this.shape = shape; });
+    this.data.counter.subscribe((counter) => { this.shape_counter = counter; });
+    this.max_counter_value = this.data.getMaxCounter();
   }
 
   @ViewChild("actionForm", { read: ViewContainerRef }) vcr!: ViewContainerRef;
@@ -36,7 +40,8 @@ export class NavBarComponent implements OnInit {
   }
 
   createShape() {
-    this.openForm("create");
+    if (this.shape_counter < this.max_counter_value)
+      this.openForm("create");
   }
 
   editShape() {

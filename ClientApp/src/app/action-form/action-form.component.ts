@@ -18,11 +18,13 @@ export class ActionFormComponent implements OnInit {
   cancelButtonContainerId = "close-btn";
   formHeader: string = "";
   shape?: Shape;
+  counter = 0;
 
   constructor(private data: ShapeSelectionService, private request: HttpRequestsService) { }
 
   ngOnInit(): void {
     this.data.selectedShape.subscribe((shape) => { this.shape = shape; });
+    this.data.counter.subscribe((counter) => { this.counter = counter; });
     this.setUpForm(this.action_type);
   }
 
@@ -52,7 +54,9 @@ export class ActionFormComponent implements OnInit {
   onSubmit(form: NgForm) {
     switch (this.action_type) {
       case "create":
-        this.request.addNewShape(form.value).subscribe();
+        if (this.counter < this.data.getMaxCounter()) {
+          this.request.addNewShape(form.value).subscribe();
+        }          
         break;
       case "edit":
         if (this.shape) {
