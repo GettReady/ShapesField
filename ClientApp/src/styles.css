@@ -60,7 +60,7 @@ ul {
   font-family: Tahoma;
   color: #303B41;
   cursor: pointer;
-
+  border-radius: 6px;
   background-color: rgb(255,242,204);
   border: 2px solid rgb(210,202,170);
 }
@@ -77,11 +77,11 @@ ul {
   padding: 5px 10px;
   font-size: 1.2rem;
   font-family: Tahoma;
-  color: #303B41;
+  color: #606B71;
   cursor: not-allowed;
-
-  background-color: rgba(220,220,220, 1);
-  border: 2px solid rgba(0,0,0,0.4);
+  border-radius: 6px;
+  background-color: rgba(220,220,220, 1);  
+  border: 2px solid rgba(0,0,0,0.3);
 }
 
 svg {
