@@ -1,24 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShapesField.Data.Models;
 using ShapesField.Data.Interfaces;
+using ShapesField.Data.Validators;
 
 namespace ShapesField.Data.Repositories
 {
     public class ShapesRepository : IShape
     {
         private ShapesFieldContext dbContext;
+        private IShapeValidator validator;
 
-        public ShapesRepository(ShapesFieldContext dbContext)
+        public ShapesRepository(ShapesFieldContext dbContext, IShapeValidator validator)
         {
             this.dbContext = dbContext;
+            this.validator = validator;
         }
 
         public ShapeModel AddShape(ShapeModel shape)
         {
-            shape.Color = "#D3D3D3";
-            dbContext.Shapes.Add(shape);
+            //shape.Color = "#D3D3D3";
+            ShapeModel validShape = validator.GetValidShape(shape);
+            dbContext.Shapes.Add(validShape);
             dbContext.SaveChanges();
-            return shape;
+            return validShape;
         }
 
         public ShapeModel EditShapeById(int id, ShapeModel new_shape)
@@ -26,15 +30,13 @@ namespace ShapesField.Data.Repositories
             ShapeModel shape = dbContext.Shapes.Find(id);
             if (shape != null)
             {
-                shape.Name = new_shape.Name;
-                shape.Type = new_shape.Type;
-                if (shape.Type == "circle" || new_shape.Type == "circle")
-                    shape.Color = new_shape.Color;
-                else
-                    shape.Color = "#D3D3D3";
-                shape.PositionX = new_shape.PositionX;
-                shape.PositionY = new_shape.PositionY;
-                dbContext.SaveChanges();
+                ShapeModel validShape = validator.GetValidShape(new_shape);
+                shape.Name = validShape.Name;
+                shape.Type = validShape.Type;
+                shape.Color = validShape.Color;
+                shape.PositionX = validShape.PositionX;
+                shape.PositionY = validShape.PositionY;
+                dbContext.SaveChanges();                
                 return shape;
             }
             throw new KeyNotFoundException();

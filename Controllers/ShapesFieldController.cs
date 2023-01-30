@@ -42,7 +42,7 @@ namespace ShapesField.Controllers
                 ShapeModel new_shape = Shape.AddShape(shape);
                 if (Counter.Count() > 0)
                 {
-                    Hub.Clients.All.SendAsync("AddNewShape", shape);
+                    Hub.Clients.All.SendAsync("AddNewShape", new_shape);
                 }
                 return Ok(new_shape);
             }
@@ -60,7 +60,7 @@ namespace ShapesField.Controllers
                 ShapeModel new_shape = Shape.EditShapeById(shape.Id, shape);
                 if (Counter.Count() > 0)
                 {
-                    Hub.Clients.All.SendAsync("EditShape", shape);
+                    Hub.Clients.All.SendAsync("EditShape", new_shape);
                 }
                 return Ok(new_shape);
             }

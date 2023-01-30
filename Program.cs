@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShapesField.Data;
 using ShapesField.Data.Interfaces;
 using ShapesField.Data.Repositories;
+using ShapesField.Data.Validators;
 using ShapesField.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 //builder.Services.AddScoped<IShape, DummyRepository>();
 builder.Services.AddSingleton<HubConnectionCounter>();
+builder.Services.AddScoped<IShapeValidator, DefaultValidator>();
 builder.Services.AddScoped<IShape, ShapesRepository>();
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ShapesFieldContext>(options => options.UseSqlServer(connection));
