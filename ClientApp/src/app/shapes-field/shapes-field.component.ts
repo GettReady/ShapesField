@@ -54,12 +54,16 @@ export class ShapesFieldComponent implements OnInit {
   }
 
   updateShape() {
-    if (this.signalRService.shape) {
-      if (JSON.stringify(this.signalRService.shape) != JSON.stringify(this.selected_shape)) {
-        let id = this.shapes_array.findIndex(el => el.id == this.signalRService.shape?.id);
+    let new_shape = this.signalRService.shape;
+    if (new_shape) {
+      if (JSON.stringify(new_shape) != JSON.stringify(this.selected_shape)) {
+        let id = this.shapes_array.findIndex(el => el.id == new_shape?.id);
         if (id >= 0) {
-          this.shapes_array[id] = structuredClone(this.signalRService.shape);
+          this.shapes_array[id] = structuredClone(new_shape);
           let element = document.querySelector<HTMLElement>('#' + this.shapes_id_array[id]);
+          if (new_shape.id == this.selected_shape?.id) {            
+            this.data.selectShape(this.shapes_array[id]);
+          }
           element?.remove();
           this.appendShapeById(this.shapes_array[id], this.shapes_id_array[id]);
         }
