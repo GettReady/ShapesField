@@ -35,5 +35,15 @@
             PositionX = posX;
             PositionY = posY;
         }
+
+        public void InsertCopyTo(ShapeModel copy)
+        {
+            copy.Id = Id;
+            copy.Name = Name;                
+            copy.Type = Type;
+            copy.Color = Color;
+            copy.PositionX = PositionX;
+            copy.PositionY = PositionY;
+        }
     }
 }

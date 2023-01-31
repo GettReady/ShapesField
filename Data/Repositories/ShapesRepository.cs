@@ -30,12 +30,7 @@ namespace ShapesField.Data.Repositories
             ShapeModel shape = dbContext.Shapes.Find(id);
             if (shape != null)
             {
-                ShapeModel validShape = validator.GetValidShape(new_shape);
-                shape.Name = validShape.Name;
-                shape.Type = validShape.Type;
-                shape.Color = validShape.Color;
-                shape.PositionX = validShape.PositionX;
-                shape.PositionY = validShape.PositionY;
+                validator.GetValidShape(new_shape).InsertCopyTo(shape);
                 dbContext.SaveChanges();                
                 return shape;
             }
